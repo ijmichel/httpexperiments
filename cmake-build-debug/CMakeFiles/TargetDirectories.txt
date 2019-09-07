@@ -1,0 +1,6 @@
+/Users/imichel/Documents/Education and Events/CS498/httpexperiments/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/Users/imichel/Documents/Education and Events/CS498/httpexperiments/cmake-build-debug/CMakeFiles/listener.dir
+/Users/imichel/Documents/Education and Events/CS498/httpexperiments/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/imichel/Documents/Education and Events/CS498/httpexperiments/cmake-build-debug/CMakeFiles/server.dir
+/Users/imichel/Documents/Education and Events/CS498/httpexperiments/cmake-build-debug/CMakeFiles/talker.dir
+/Users/imichel/Documents/Education and Events/CS498/httpexperiments/cmake-build-debug/CMakeFiles/client.dir

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.14)
-project(assignment1_files)
+project(httpexperiments)
 
 set(CMAKE_CXX_STANDARD 14)
 

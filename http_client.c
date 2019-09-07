@@ -22,7 +22,6 @@
 struct uriInfo {
     char  *protocol;
     char  *server;
-    char  *serverPort;
     int   port;
     char  *path;
 };
@@ -124,7 +123,7 @@ struct uriInfo *getUriDetails(char str[], struct uriInfo *iUriInfo){
               token = strtok(NULL, "/");
         }
         else if(count == 1){
-             iUriInfo->serverPort = token;
+             iUriInfo->server = token;
              token = strtok(NULL, "\0");
         }
         else {
@@ -134,9 +133,9 @@ struct uriInfo *getUriDetails(char str[], struct uriInfo *iUriInfo){
         count++;
     }
 
-    if(iUriInfo->serverPort != NULL){
+    if(iUriInfo->server != NULL){
         char *port;
-        port = strtok(iUriInfo->serverPort, ":");
+        port = strtok(iUriInfo->server, ":");
         if(port != NULL){
             port = strtok(NULL, ":");
             iUriInfo->port = atoi(port);

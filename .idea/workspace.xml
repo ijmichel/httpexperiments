@@ -2,10 +2,10 @@
 <project version="4">
   <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
     <generated>
-      <config projectName="assignment1_files" targetName="server" />
-      <config projectName="assignment1_files" targetName="client" />
-      <config projectName="assignment1_files" targetName="listener" />
-      <config projectName="assignment1_files" targetName="talker" />
+      <config projectName="httpexperiments" targetName="server" />
+      <config projectName="httpexperiments" targetName="talker" />
+      <config projectName="httpexperiments" targetName="listener" />
+      <config projectName="httpexperiments" targetName="http_client" />
     </generated>
   </component>
   <component name="CMakeSettings">
@@ -15,9 +15,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a0b23aaf-bb5d-4168-b8c4-342250a1cf60" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/client.dir/http_client.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/client.dir/http_client.c.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-log.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/listener.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/listener.dir/depend.make" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/server.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/server.dir/depend.make" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/talker.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/talker.dir/depend.make" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Makefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/client" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/client" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/client.dSYM/Contents/Resources/DWARF/client" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/client.dSYM/Contents/Resources/DWARF/client" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/listener" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/listener" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/server" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/server" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/server.dSYM/Contents/Resources/DWARF/server" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/server.dSYM/Contents/Resources/DWARF/server" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/talker" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/talker" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/http_client.c" beforeDir="false" afterPath="$PROJECT_DIR$/http_client.c" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -41,7 +57,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="restartRequiresConfirmation" value="false" />
-    <property name="settings.editor.selected.configurable" value="vcs.Git" />
+    <property name="settings.editor.selected.configurable" value="settings.github" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -55,29 +71,29 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="CMake Application.client">
-    <configuration name="client" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="&quot;127.0.0.1&quot;" PASS_PARENT_ENVS_2="true" PROJECT_NAME="assignment1_files" TARGET_NAME="client" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="assignment1_files" RUN_TARGET_NAME="client">
+  <component name="RunManager" selected="CMake Application.http_client">
+    <configuration name="http_client" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="&quot;http://www.google.com/&quot;" PASS_PARENT_ENVS_2="true" PROJECT_NAME="httpexperiments" TARGET_NAME="http_client" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="httpexperiments" RUN_TARGET_NAME="http_client">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="listener" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="assignment1_files" TARGET_NAME="listener" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="assignment1_files" RUN_TARGET_NAME="listener">
+    <configuration name="listener" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="httpexperiments" TARGET_NAME="listener" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="httpexperiments" RUN_TARGET_NAME="listener">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="server" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="assignment1_files" TARGET_NAME="server" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="assignment1_files" RUN_TARGET_NAME="server">
+    <configuration name="server" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="httpexperiments" TARGET_NAME="server" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="httpexperiments" RUN_TARGET_NAME="server">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="talker" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="assignment1_files" TARGET_NAME="talker" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="assignment1_files" RUN_TARGET_NAME="talker">
+    <configuration name="talker" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="httpexperiments" TARGET_NAME="talker" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="httpexperiments" RUN_TARGET_NAME="talker">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
     <list>
-      <item itemvalue="CMake Application.client" />
+      <item itemvalue="CMake Application.http_client" />
       <item itemvalue="CMake Application.listener" />
       <item itemvalue="CMake Application.server" />
       <item itemvalue="CMake Application.talker" />
@@ -95,8 +111,16 @@
       <updated>1567867224759</updated>
       <workItem from="1567867225909" duration="444000" />
       <workItem from="1567867738352" duration="17800000" />
-      <workItem from="1567887077335" duration="1008000" />
+      <workItem from="1567887077335" duration="4490000" />
     </task>
+    <task id="LOCAL-00001" summary="Add port into URi">
+      <created>1567888202645</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1567888202645</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -113,28 +137,22 @@
       </map>
     </option>
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Add port into URi" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add port into URi" />
+  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/http_client.c</url>
+          <line>162</line>
+          <option name="timeStamp" value="41" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/server.c</url>
           <line>105</line>
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/http_client.c</url>
-          <line>144</line>
-          <option name="timeStamp" value="26" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/http_client.c</url>
-          <line>62</line>
-          <option name="timeStamp" value="36" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/http_client.c</url>
-          <line>137</line>
-          <option name="timeStamp" value="39" />
+          <option name="timeStamp" value="46" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

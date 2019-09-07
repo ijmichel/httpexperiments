@@ -56,17 +56,6 @@ CMAKE_BINARY_DIR = "/Users/imichel/Documents/Education and Events/CS498/httpexpe
 #=============================================================================
 # Targets provided globally by CMake.
 
-# Special rule for the target rebuild_cache
-rebuild_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
-.PHONY : rebuild_cache
-
-# Special rule for the target rebuild_cache
-rebuild_cache/fast: rebuild_cache
-
-.PHONY : rebuild_cache/fast
-
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
@@ -77,6 +66,17 @@ edit_cache:
 edit_cache/fast: edit_cache
 
 .PHONY : edit_cache/fast
+
+# Special rule for the target rebuild_cache
+rebuild_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
+	/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+.PHONY : rebuild_cache
+
+# Special rule for the target rebuild_cache
+rebuild_cache/fast: rebuild_cache
+
+.PHONY : rebuild_cache/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -111,19 +111,6 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named listener
-
-# Build rule for target.
-listener: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 listener
-.PHONY : listener
-
-# fast build rule for target.
-listener/fast:
-	$(MAKE) -f CMakeFiles/listener.dir/build.make CMakeFiles/listener.dir/build
-.PHONY : listener/fast
-
-#=============================================================================
 # Target rules for targets named server
 
 # Build rule for target.
@@ -150,17 +137,30 @@ talker/fast:
 .PHONY : talker/fast
 
 #=============================================================================
-# Target rules for targets named client
+# Target rules for targets named listener
 
 # Build rule for target.
-client: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 client
-.PHONY : client
+listener: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 listener
+.PHONY : listener
 
 # fast build rule for target.
-client/fast:
-	$(MAKE) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/build
-.PHONY : client/fast
+listener/fast:
+	$(MAKE) -f CMakeFiles/listener.dir/build.make CMakeFiles/listener.dir/build
+.PHONY : listener/fast
+
+#=============================================================================
+# Target rules for targets named http_client
+
+# Build rule for target.
+http_client: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 http_client
+.PHONY : http_client
+
+# fast build rule for target.
+http_client/fast:
+	$(MAKE) -f CMakeFiles/http_client.dir/build.make CMakeFiles/http_client.dir/build
+.PHONY : http_client/fast
 
 http_client.o: http_client.c.o
 
@@ -168,7 +168,7 @@ http_client.o: http_client.c.o
 
 # target to build an object file
 http_client.c.o:
-	$(MAKE) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/http_client.c.o
+	$(MAKE) -f CMakeFiles/http_client.dir/build.make CMakeFiles/http_client.dir/http_client.c.o
 .PHONY : http_client.c.o
 
 http_client.i: http_client.c.i
@@ -177,7 +177,7 @@ http_client.i: http_client.c.i
 
 # target to preprocess a source file
 http_client.c.i:
-	$(MAKE) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/http_client.c.i
+	$(MAKE) -f CMakeFiles/http_client.dir/build.make CMakeFiles/http_client.dir/http_client.c.i
 .PHONY : http_client.c.i
 
 http_client.s: http_client.c.s
@@ -186,7 +186,7 @@ http_client.s: http_client.c.s
 
 # target to generate assembly for a file
 http_client.c.s:
-	$(MAKE) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/http_client.c.s
+	$(MAKE) -f CMakeFiles/http_client.dir/build.make CMakeFiles/http_client.dir/http_client.c.s
 .PHONY : http_client.c.s
 
 listener.o: listener.c.o
@@ -276,12 +276,12 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
-	@echo "... rebuild_cache"
-	@echo "... listener"
-	@echo "... edit_cache"
 	@echo "... server"
 	@echo "... talker"
-	@echo "... client"
+	@echo "... listener"
+	@echo "... edit_cache"
+	@echo "... rebuild_cache"
+	@echo "... http_client"
 	@echo "... http_client.o"
 	@echo "... http_client.i"
 	@echo "... http_client.s"

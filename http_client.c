@@ -22,11 +22,14 @@
 struct uriInfo {
     char  *protocol;
     char  *server;
-    int   port;
+    char  *fullPathWithoutPort;
+    char  *port;
     char  *path;
 };
 
 struct uriInfo *getUriDetails(char str[], struct uriInfo *iUriInfo);
+
+void writeMessageToFile(const char *message);
 
 // get sockaddr, IPv4 or IPv6:
 void *get_in_addr(struct sockaddr *sa)
@@ -55,14 +58,15 @@ int main(int argc, char *argv[])
 	hints.ai_family = AF_UNSPEC;
 	hints.ai_socktype = SOCK_STREAM;
 
-    char str[] = "http://192.168.0.2:8888/servlet/rece";
-
     struct uriInfo *clientUriInfo = malloc(sizeof(struct uriInfo));
-    clientUriInfo = getUriDetails(str,clientUriInfo);
+    clientUriInfo = getUriDetails(argv[1],clientUriInfo);
 
-    printf(clientUriInfo->server);
+    if(strcmp(clientUriInfo->protocol,"http:") != 0){
+        writeMessageToFile("INVALIDPROTOCOL");
+        return(0);
+    }
 
-	if ((rv = getaddrinfo(argv[1], PORT, &hints, &servinfo)) != 0) {
+	if ((rv = getaddrinfo(clientUriInfo->server,clientUriInfo->port,&hints, &servinfo)) != 0) {
 		fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(rv));
 		return 1;
 	}
@@ -109,11 +113,18 @@ int main(int argc, char *argv[])
 	return 0;
 }
 
+void writeMessageToFile(const char *message) {
+    FILE *fp;
+    fp = fopen("output", "w+");
+    fprintf(fp, message);
+    fclose(fp);
+}
+
 struct uriInfo *getUriDetails(char str[], struct uriInfo *iUriInfo){
     char *token;
 
     /* get the first token */
-    token = strtok(str, "/");
+    token = strtok(str, "//");
 
     /* walk through other tokens */
     int count = 0;
@@ -133,12 +144,18 @@ struct uriInfo *getUriDetails(char str[], struct uriInfo *iUriInfo){
         count++;
     }
 
+    //Parse the port from the server if its there
     if(iUriInfo->server != NULL){
         char *port;
         port = strtok(iUriInfo->server, ":");
         if(port != NULL){
             port = strtok(NULL, ":");
-            iUriInfo->port = atoi(port);
+            if(port != NULL){
+                iUriInfo->port = port;
+            }else{
+                iUriInfo->port = "80";
+            }
+
         }
     }
 

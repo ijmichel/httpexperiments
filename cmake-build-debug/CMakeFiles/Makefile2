@@ -65,43 +65,6 @@ CMAKE_SOURCE_DIR = "/Users/imichel/Documents/Education and Events/CS498/httpexpe
 CMAKE_BINARY_DIR = "/Users/imichel/Documents/Education and Events/CS498/httpexperiments/cmake-build-debug"
 
 #=============================================================================
-# Target rules for target CMakeFiles/listener.dir
-
-# All Build rule for target.
-CMakeFiles/listener.dir/all:
-	$(MAKE) -f CMakeFiles/listener.dir/build.make CMakeFiles/listener.dir/depend
-	$(MAKE) -f CMakeFiles/listener.dir/build.make CMakeFiles/listener.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir="/Users/imichel/Documents/Education and Events/CS498/httpexperiments/cmake-build-debug/CMakeFiles" --progress-num=3,4 "Built target listener"
-.PHONY : CMakeFiles/listener.dir/all
-
-# Include target in all.
-all: CMakeFiles/listener.dir/all
-
-.PHONY : all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/listener.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/Users/imichel/Documents/Education and Events/CS498/httpexperiments/cmake-build-debug/CMakeFiles" 2
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/listener.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start "/Users/imichel/Documents/Education and Events/CS498/httpexperiments/cmake-build-debug/CMakeFiles" 0
-.PHONY : CMakeFiles/listener.dir/rule
-
-# Convenience name for target.
-listener: CMakeFiles/listener.dir/rule
-
-.PHONY : listener
-
-# clean rule for target.
-CMakeFiles/listener.dir/clean:
-	$(MAKE) -f CMakeFiles/listener.dir/build.make CMakeFiles/listener.dir/clean
-.PHONY : CMakeFiles/listener.dir/clean
-
-# clean rule for target.
-clean: CMakeFiles/listener.dir/clean
-
-.PHONY : clean
-
-#=============================================================================
 # Target rules for target CMakeFiles/server.dir
 
 # All Build rule for target.
@@ -176,39 +139,76 @@ clean: CMakeFiles/talker.dir/clean
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/client.dir
+# Target rules for target CMakeFiles/listener.dir
 
 # All Build rule for target.
-CMakeFiles/client.dir/all:
-	$(MAKE) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/depend
-	$(MAKE) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir="/Users/imichel/Documents/Education and Events/CS498/httpexperiments/cmake-build-debug/CMakeFiles" --progress-num=1,2 "Built target client"
-.PHONY : CMakeFiles/client.dir/all
+CMakeFiles/listener.dir/all:
+	$(MAKE) -f CMakeFiles/listener.dir/build.make CMakeFiles/listener.dir/depend
+	$(MAKE) -f CMakeFiles/listener.dir/build.make CMakeFiles/listener.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir="/Users/imichel/Documents/Education and Events/CS498/httpexperiments/cmake-build-debug/CMakeFiles" --progress-num=3,4 "Built target listener"
+.PHONY : CMakeFiles/listener.dir/all
 
 # Include target in all.
-all: CMakeFiles/client.dir/all
+all: CMakeFiles/listener.dir/all
 
 .PHONY : all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/client.dir/rule: cmake_check_build_system
+CMakeFiles/listener.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start "/Users/imichel/Documents/Education and Events/CS498/httpexperiments/cmake-build-debug/CMakeFiles" 2
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/client.dir/all
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/listener.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "/Users/imichel/Documents/Education and Events/CS498/httpexperiments/cmake-build-debug/CMakeFiles" 0
-.PHONY : CMakeFiles/client.dir/rule
+.PHONY : CMakeFiles/listener.dir/rule
 
 # Convenience name for target.
-client: CMakeFiles/client.dir/rule
+listener: CMakeFiles/listener.dir/rule
 
-.PHONY : client
-
-# clean rule for target.
-CMakeFiles/client.dir/clean:
-	$(MAKE) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/clean
-.PHONY : CMakeFiles/client.dir/clean
+.PHONY : listener
 
 # clean rule for target.
-clean: CMakeFiles/client.dir/clean
+CMakeFiles/listener.dir/clean:
+	$(MAKE) -f CMakeFiles/listener.dir/build.make CMakeFiles/listener.dir/clean
+.PHONY : CMakeFiles/listener.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/listener.dir/clean
+
+.PHONY : clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/http_client.dir
+
+# All Build rule for target.
+CMakeFiles/http_client.dir/all:
+	$(MAKE) -f CMakeFiles/http_client.dir/build.make CMakeFiles/http_client.dir/depend
+	$(MAKE) -f CMakeFiles/http_client.dir/build.make CMakeFiles/http_client.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir="/Users/imichel/Documents/Education and Events/CS498/httpexperiments/cmake-build-debug/CMakeFiles" --progress-num=1,2 "Built target http_client"
+.PHONY : CMakeFiles/http_client.dir/all
+
+# Include target in all.
+all: CMakeFiles/http_client.dir/all
+
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/http_client.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start "/Users/imichel/Documents/Education and Events/CS498/httpexperiments/cmake-build-debug/CMakeFiles" 2
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/http_client.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start "/Users/imichel/Documents/Education and Events/CS498/httpexperiments/cmake-build-debug/CMakeFiles" 0
+.PHONY : CMakeFiles/http_client.dir/rule
+
+# Convenience name for target.
+http_client: CMakeFiles/http_client.dir/rule
+
+.PHONY : http_client
+
+# clean rule for target.
+CMakeFiles/http_client.dir/clean:
+	$(MAKE) -f CMakeFiles/http_client.dir/build.make CMakeFiles/http_client.dir/clean
+.PHONY : CMakeFiles/http_client.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/http_client.dir/clean
 
 .PHONY : clean
 

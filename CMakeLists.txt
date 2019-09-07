@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 14)
 
 include_directories(.)
 
-add_executable(client
+add_executable(http_client
         http_client.c)
 
 add_executable(listener

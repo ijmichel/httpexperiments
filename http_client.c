@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
 	hints.ai_family = AF_UNSPEC;
 	hints.ai_socktype = SOCK_STREAM;
 
-    struct uriInfo *clientUriInfo = malloc(sizeof(struct uriInfo));
+    struct uriInfo *clientUriInfo = (struct uriInfo *) malloc(sizeof(struct uriInfo));
     clientUriInfo = getUriDetails(argv[1],clientUriInfo);
 
     if(strcmp(clientUriInfo->protocol,"http:") != 0){
@@ -64,6 +64,7 @@ int main(int argc, char *argv[])
 
 	if ((rv = getaddrinfo(clientUriInfo->fullPathWithoutPort,clientUriInfo->port,&hints, &servinfo)) != 0) {
 		fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(rv));
+        writeMessageToFile("NOCONNECTION");
 		return 1;
 	}
 

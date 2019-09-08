@@ -5,14 +5,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <errno.h>
 #include <string.h>
 #include <netdb.h>
-#include <sys/types.h>
-#include <netinet/in.h>
-#include <sys/socket.h>
 #include <arpa/inet.h>
-#include <stddef.h>
 
 #define PORT "3490" // the port client will be connecting to 
 
@@ -63,10 +58,11 @@ int main(int argc, char *argv[])
 
     if(strcmp(clientUriInfo->protocol,"http:") != 0){
         writeMessageToFile("INVALIDPROTOCOL");
-        return(0);
+        fprintf(stderr, "INVALIDPROTOCOL");
+        return(1);
     }
 
-	if ((rv = getaddrinfo(clientUriInfo->server,clientUriInfo->port,&hints, &servinfo)) != 0) {
+	if ((rv = getaddrinfo(clientUriInfo->fullPathWithoutPort,clientUriInfo->port,&hints, &servinfo)) != 0) {
 		fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(rv));
 		return 1;
 	}
@@ -108,6 +104,8 @@ int main(int argc, char *argv[])
 
 	printf("client: received '%s'\n",buf);
 
+    writeMessageToFile(buf);
+
 	close(sockfd);
 
 	return 0;
@@ -116,7 +114,7 @@ int main(int argc, char *argv[])
 void writeMessageToFile(const char *message) {
     FILE *fp;
     fp = fopen("output", "w+");
-    fprintf(fp, message);
+    fprintf(fp, "%s",message);
     fclose(fp);
 }
 
@@ -148,6 +146,7 @@ struct uriInfo *getUriDetails(char str[], struct uriInfo *iUriInfo){
     if(iUriInfo->server != NULL){
         char *port;
         port = strtok(iUriInfo->server, ":");
+        iUriInfo->server = port;
         if(port != NULL){
             port = strtok(NULL, ":");
             if(port != NULL){
@@ -158,6 +157,25 @@ struct uriInfo *getUriDetails(char str[], struct uriInfo *iUriInfo){
 
         }
     }
+
+    if(iUriInfo->protocol != NULL && iUriInfo->server != NULL){
+        int fullPathSize = strlen(iUriInfo->protocol)  + strlen("//") + strlen(iUriInfo->server) + strlen("/") + 1;
+        if(iUriInfo->path != NULL){
+            fullPathSize += strlen(iUriInfo->path);
+        }
+
+        char * newBuffer = (char *)malloc(fullPathSize);
+        strcpy(newBuffer,iUriInfo->protocol);
+        strcat(newBuffer,"//");
+        strcat(newBuffer,iUriInfo->server);
+        strcat(newBuffer,"/");
+        if(iUriInfo->path != NULL) {
+            strcat(newBuffer, iUriInfo->path);
+        }
+        iUriInfo->fullPathWithoutPort = newBuffer;
+    }
+
+
 
     return iUriInfo;
 }

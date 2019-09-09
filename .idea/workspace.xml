@@ -15,26 +15,29 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a0b23aaf-bb5d-4168-b8c4-342250a1cf60" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/http_client.c" beforeDir="false" afterPath="$PROJECT_DIR$/http_client.c" afterDir="false" />
+    </list>
+    <list id="9fee8153-1c6c-4fe5-b712-16f8e6903b78" name="Ignore" comment="">
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeOutput.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeOutput.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/client.dir/http_client.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/client.dir/http_client.c.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/client.dir/C.includecache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/client.dir/DependInfo.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/client.dir/build.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/client.dir/cmake_clean.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/client.dir/depend.internal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/client.dir/depend.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/client.dir/flags.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/client.dir/http_client.c.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/client.dir/link.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/client.dir/progress.make" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-log.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/listener.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/listener.dir/depend.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/server.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/server.dir/depend.make" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/talker.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/talker.dir/depend.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/client" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/client" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/client.dSYM/Contents/Resources/DWARF/client" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/client.dSYM/Contents/Resources/DWARF/client" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/listener" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/listener" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/server" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/server" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/server.dSYM/Contents/Resources/DWARF/server" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/server.dSYM/Contents/Resources/DWARF/server" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/talker" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/talker" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/http_client.c" beforeDir="false" afterPath="$PROJECT_DIR$/http_client.c" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -57,7 +60,8 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="restartRequiresConfirmation" value="false" />
-    <property name="settings.editor.selected.configurable" value="settings.github" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
+    <property name="settings.editor.selected.configurable" value="CPPToolchains" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -72,7 +76,7 @@
     </option>
   </component>
   <component name="RunManager" selected="CMake Application.http_client">
-    <configuration name="http_client" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="&quot;http://www.google.com/&quot;" PASS_PARENT_ENVS_2="true" PROJECT_NAME="httpexperiments" TARGET_NAME="http_client" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="httpexperiments" RUN_TARGET_NAME="http_client">
+    <configuration name="http_client" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="&quot;http://localhost:8888/server_folder/folder3/file3&quot;" PASS_PARENT_ENVS_2="true" PROJECT_NAME="httpexperiments" TARGET_NAME="http_client" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="httpexperiments" RUN_TARGET_NAME="http_client">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -105,13 +109,16 @@
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="a0b23aaf-bb5d-4168-b8c4-342250a1cf60" name="Default Changelist" comment="" />
+      <changelist id="9fee8153-1c6c-4fe5-b712-16f8e6903b78" name="Ignore" comment="" />
       <created>1567867224759</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1567867224759</updated>
       <workItem from="1567867225909" duration="444000" />
       <workItem from="1567867738352" duration="17800000" />
-      <workItem from="1567887077335" duration="4490000" />
+      <workItem from="1567887077335" duration="7718000" />
+      <workItem from="1567894993941" duration="1541000" />
+      <workItem from="1567897298255" duration="9416000" />
     </task>
     <task id="LOCAL-00001" summary="Add port into URi">
       <created>1567888202645</created>
@@ -120,7 +127,35 @@
       <option name="project" value="LOCAL" />
       <updated>1567888202645</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Add port into URi">
+      <created>1567891784601</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1567891784601</updated>
+    </task>
+    <task id="LOCAL-00003" summary="YES">
+      <created>1567902598882</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1567902598882</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Fix implicit conversation - add output too">
+      <created>1567903748355</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1567903748355</updated>
+    </task>
+    <task id="LOCAL-00005" summary="filenotfound - buffer size">
+      <created>1568019525555</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1568019525555</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -131,7 +166,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>
@@ -139,20 +176,23 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Add port into URi" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add port into URi" />
+    <MESSAGE value="YES" />
+    <MESSAGE value="Fix implicit conversation - add output too" />
+    <MESSAGE value="filenotfound - buffer size" />
+    <option name="LAST_COMMIT_MESSAGE" value="filenotfound - buffer size" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/http_client.c</url>
-          <line>162</line>
-          <option name="timeStamp" value="41" />
+          <line>58</line>
+          <option name="timeStamp" value="90" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/server.c</url>
-          <line>105</line>
-          <option name="timeStamp" value="46" />
+          <url>file://$PROJECT_DIR$/http_client.c</url>
+          <line>103</line>
+          <option name="timeStamp" value="91" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

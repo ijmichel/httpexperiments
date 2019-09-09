@@ -216,12 +216,6 @@ CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
 ProcessorCount_cmd_sysctl:FILEPATH=/usr/sbin/sysctl
 
 //Value Computed by CMake
-assignment1_files_BINARY_DIR:STATIC=/Users/imichel/Documents/Education and Events/CS498/httpexperiments/cmake-build-debug
-
-//Value Computed by CMake
-assignment1_files_SOURCE_DIR:STATIC=/Users/imichel/Documents/Education and Events/CS498/httpexperiments
-
-//Value Computed by CMake
 httpexperiments_BINARY_DIR:STATIC=/Users/imichel/Documents/Education and Events/CS498/httpexperiments/cmake-build-debug
 
 //Value Computed by CMake

@@ -11,7 +11,7 @@
 
 #define PORT "3490" // the port client will be connecting to 
 
-#define MAXDATASIZE 100 // max number of bytes we can get at once 
+#define MAXDATASIZE 999999 // max number of bytes we can get at once
 
 
 struct uriInfo {
@@ -72,12 +72,14 @@ int main(int argc, char *argv[])
 	for(p = servinfo; p != NULL; p = p->ai_next) {
 		if ((sockfd = socket(p->ai_family, p->ai_socktype,
 				p->ai_protocol)) == -1) {
+            writeMessageToFile("FILENOTFOUND");
 			perror("client: socket");
 			continue;
 		}
 
 		if (connect(sockfd, p->ai_addr, p->ai_addrlen) == -1) {
 			close(sockfd);
+            writeMessageToFile("FILENOTFOUND");
 			perror("client: connect");
 			continue;
 		}
@@ -87,6 +89,7 @@ int main(int argc, char *argv[])
 
 	if (p == NULL) {
 		fprintf(stderr, "client: failed to connect\n");
+        writeMessageToFile("FILENOTFOUND");
 		return 2;
 	}
 
@@ -98,6 +101,7 @@ int main(int argc, char *argv[])
 
 	if ((numbytes = recv(sockfd, buf, MAXDATASIZE-1, 0)) == -1) {
 	    perror("recv");
+        writeMessageToFile("FILENOTFOUND");
 	    exit(1);
 	}
 

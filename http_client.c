@@ -17,6 +17,7 @@
 struct uriInfo {
     char  *protocol;
     char  *server;
+    char  *serverPort;
     char  *fullPathWithoutPort;
     char  *port;
     char  *path;
@@ -62,7 +63,7 @@ int main(int argc, char *argv[])
         return(1);
     }
 
-	if ((rv = getaddrinfo(clientUriInfo->fullPathWithoutPort,clientUriInfo->port,&hints, &servinfo)) != 0) {
+	if ((rv = getaddrinfo(clientUriInfo->server,clientUriInfo->port,&hints, &servinfo)) != 0) {
 		fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(rv));
         writeMessageToFile("NOCONNECTION");
 		return 1;
@@ -99,7 +100,20 @@ int main(int argc, char *argv[])
 
 	freeaddrinfo(servinfo); // all done with this structure
 
-	if ((numbytes = recv(sockfd, buf, MAXDATASIZE-1, 0)) == -1) {
+	char msg [100];
+    sprintf(msg,"GET %s HTTP/1.0\r\nUser-Agent: Wget/1.15 (linux-gnu)\r\nAccept: */*\nHost: %s\r\nConnection: Keep-Alive\n\n",clientUriInfo->path,clientUriInfo->serverPort);
+   // sprintf(msg,"GET %s ","test");
+	int len, bytes_sent;
+	len = strlen(msg);
+
+    if( bytes_sent = send(sockfd,msg,len,0) < 0)
+    {
+        puts("Send failed");
+        return 1;
+    }
+
+
+    if((numbytes = recv(sockfd, buf,MAXDATASIZE,0)) == -1){
 	    perror("recv");
         writeMessageToFile("FILENOTFOUND");
 	    exit(1);
@@ -178,6 +192,28 @@ struct uriInfo *getUriDetails(char str[], struct uriInfo *iUriInfo){
             strcat(newBuffer, iUriInfo->path);
         }
         iUriInfo->fullPathWithoutPort = newBuffer;
+    }
+
+    if(iUriInfo->port != NULL && iUriInfo->server != NULL){
+        int fullPathSize = strlen(iUriInfo->protocol)  + strlen("//") + strlen(iUriInfo->server) + strlen(":") + strlen(iUriInfo->port) + 1 ;
+
+        char * newBuffer = (char *)malloc(fullPathSize);
+        strcpy(newBuffer,iUriInfo->protocol);
+        strcat(newBuffer,"//");
+        strcat(newBuffer,iUriInfo->server);
+        strcat(newBuffer,":");
+        strcat(newBuffer, iUriInfo->port);
+
+        iUriInfo->serverPort = newBuffer;
+    }
+
+    if(iUriInfo->path != NULL ){
+        int fullPathSize = strlen("/") + strlen(iUriInfo->path) + 1;
+        char * newBuffer = (char *)malloc(fullPathSize);
+        strcpy(newBuffer,"/");
+        strcat(newBuffer,iUriInfo->path);
+
+        iUriInfo->path = newBuffer;
     }
 
 

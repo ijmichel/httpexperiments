@@ -7,6 +7,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <netdb.h>
+#include <regex.h>
 #include <arpa/inet.h>
 
 #define PORT "3490" // the port client will be connecting to 
@@ -23,7 +24,13 @@ struct uriInfo {
     char  *path;
 };
 
+struct httpResponse {
+    char  *httpStatusCd;
+    char  *body;
+};
+
 struct uriInfo *getUriDetails(char str[], struct uriInfo *iUriInfo);
+struct httpResponse *parseResponse(char* buf, struct httpResponse *httpResponseDtl);
 
 void writeMessageToFile(const char *message);
 
@@ -73,14 +80,14 @@ int main(int argc, char *argv[])
 	for(p = servinfo; p != NULL; p = p->ai_next) {
 		if ((sockfd = socket(p->ai_family, p->ai_socktype,
 				p->ai_protocol)) == -1) {
-            writeMessageToFile("FILENOTFOUND");
+            writeMessageToFile("NOCONNECTION");
 			perror("client: socket");
 			continue;
 		}
 
 		if (connect(sockfd, p->ai_addr, p->ai_addrlen) == -1) {
 			close(sockfd);
-            writeMessageToFile("FILENOTFOUND");
+            writeMessageToFile("NOCONNECTION");
 			perror("client: connect");
 			continue;
 		}
@@ -90,7 +97,7 @@ int main(int argc, char *argv[])
 
 	if (p == NULL) {
 		fprintf(stderr, "client: failed to connect\n");
-        writeMessageToFile("FILENOTFOUND");
+        writeMessageToFile("NOCONNECTION");
 		return 2;
 	}
 
@@ -115,7 +122,7 @@ int main(int argc, char *argv[])
 
     if((numbytes = recv(sockfd, buf,MAXDATASIZE,0)) == -1){
 	    perror("recv");
-        writeMessageToFile("FILENOTFOUND");
+        writeMessageToFile("NOCONNECTION");
 	    exit(1);
 	}
 
@@ -125,9 +132,56 @@ int main(int argc, char *argv[])
 
     writeMessageToFile(buf);
 
+    struct httpResponse *httpResponseDtl = (struct httpResponse *) malloc(sizeof(struct httpResponse));
+    httpResponseDtl = parseResponse(buf,httpResponseDtl);
+
+    if(strcmp(httpResponseDtl->httpStatusCd,"HTTP/1.0 404 Not Found") == 0){
+        writeMessageToFile("FILENOTFOUND");
+    }else{
+        writeMessageToFile(httpResponseDtl->body);
+    }
+
 	close(sockfd);
 
 	return 0;
+}
+
+struct httpResponse *parseResponse(char* buf, struct httpResponse *httpResponseDtl){
+    char* body = strstr(buf, "\r\n\r\n") + 4;
+    char* header = 0;
+    if(body) {
+        // allocate memory to hold the entire header
+        header = malloc((body - buf) + 1);
+        if(header) {
+            // copy header to buffer
+            memcpy(header, buf, body - buf);
+            // null terminate the buffer
+            header[body - buf] = 0;
+            // do something with the buffer
+
+        }
+    }
+
+    if(body != NULL){
+        httpResponseDtl->body = body;
+    }
+
+    char* httpStat;
+    httpStat = strtok(buf, "\r\n");
+    //"HTTP/1.0 200 OK"
+    if( httpStat != NULL ){
+        httpResponseDtl->httpStatusCd = httpStat;
+    }
+
+//    token = strtok(NULL, "\r\n");
+//    while( token != NULL ) {
+//        if (strstr(token, "Content-Length") != NULL) {
+//            int length;
+//            sscanf(token,"Content-Length: %d", &length);
+//        }
+//        token = strtok(NULL, "\r\n");
+//    }
+
 }
 
 void writeMessageToFile(const char *message) {

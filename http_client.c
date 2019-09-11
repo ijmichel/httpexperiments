@@ -7,8 +7,8 @@
 #include <unistd.h>
 #include <string.h>
 #include <netdb.h>
-#include <regex.h>
 #include <arpa/inet.h>
+
 
 #define PORT "3490" // the port client will be connecting to 
 
@@ -108,7 +108,7 @@ int main(int argc, char *argv[])
 	freeaddrinfo(servinfo); // all done with this structure
 
 	char msg [100];
-    sprintf(msg,"GET %s HTTP/1.0\r\nUser-Agent: Wget/1.15 (linux-gnu)\r\nAccept: */*\nHost: %s\r\nConnection: Keep-Alive\n\n",clientUriInfo->path,clientUriInfo->serverPort);
+    sprintf(msg,"GET %s HTTP/1.1\r\nUser-Agent: Wget/1.15 (linux-gnu)\r\nAccept: */*\nHost: %s\r\nConnection: close\n\n",clientUriInfo->path,clientUriInfo->serverPort);
    // sprintf(msg,"GET %s ","test");
 	int len, bytes_sent;
 	len = strlen(msg);
@@ -120,22 +120,20 @@ int main(int argc, char *argv[])
     }
 
 
-    if((numbytes = recv(sockfd, buf,MAXDATASIZE,0)) == -1){
+    if((numbytes = recv(sockfd, buf,MAXDATASIZE-1,0)) == -1){
 	    perror("recv");
         writeMessageToFile("NOCONNECTION");
 	    exit(1);
 	}
 
-	buf[numbytes] = '\0';
+//	buf[numbytes] = '\0';
 
 	printf("client: received '%s'\n",buf);
-
-    writeMessageToFile(buf);
 
     struct httpResponse *httpResponseDtl = (struct httpResponse *) malloc(sizeof(struct httpResponse));
     httpResponseDtl = parseResponse(buf,httpResponseDtl);
 
-    if(strcmp(httpResponseDtl->httpStatusCd,"HTTP/1.0 404 Not Found") == 0){
+    if(strstr(httpResponseDtl->httpStatusCd,"404") != NULL){
         writeMessageToFile("FILENOTFOUND");
     }else{
         writeMessageToFile(httpResponseDtl->body);
@@ -150,15 +148,10 @@ struct httpResponse *parseResponse(char* buf, struct httpResponse *httpResponseD
     char* body = strstr(buf, "\r\n\r\n") + 4;
     char* header = 0;
     if(body) {
-        // allocate memory to hold the entire header
-        header = malloc((body - buf) + 1);
+        header = (char *)malloc((body - buf) + 1);
         if(header) {
-            // copy header to buffer
             memcpy(header, buf, body - buf);
-            // null terminate the buffer
             header[body - buf] = 0;
-            // do something with the buffer
-
         }
     }
 
@@ -172,15 +165,6 @@ struct httpResponse *parseResponse(char* buf, struct httpResponse *httpResponseD
     if( httpStat != NULL ){
         httpResponseDtl->httpStatusCd = httpStat;
     }
-
-//    token = strtok(NULL, "\r\n");
-//    while( token != NULL ) {
-//        if (strstr(token, "Content-Length") != NULL) {
-//            int length;
-//            sscanf(token,"Content-Length: %d", &length);
-//        }
-//        token = strtok(NULL, "\r\n");
-//    }
 
 }
 

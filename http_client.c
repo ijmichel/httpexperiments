@@ -122,80 +122,103 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    if((numbytes = recv(sockfd, buf,MAXDATASIZE-1,0)) == -1){
-	    perror("recv");
-        writeMessageToFile("NOCONNECTION");
-	    exit(1);
-	}
+    FILE *fp;
+    fp = fopen("output", "wb"); //leave open for writing
 
-	printf("client: received '%s'\n",buf);
+    if((numbytes = recv(sockfd, buf, MAXDATASIZE-1, 0)) == -1){
+        perror("recv");
+        writeMessageToFile("NOCONNECTION");
+        exit(1);
+    }
+
+    printf("client: received '%s'\n",buf);
 
     struct httpResponse *httpResponseDtl = (struct httpResponse *) malloc(sizeof(struct httpResponse));
     httpResponseDtl = parseResponse(buf,httpResponseDtl);
 
-    int bufsize = numbytes;
+    if(strstr(httpResponseDtl->httpStatusCd,"404") != NULL) {
+        writeMessageToFile("FILENOTFOUND");
+        return 0;
+    }
+
+    if(httpResponseDtl->body != buf){
+        int headerSize = (int) (httpResponseDtl->body - buf);
+        fwrite(buf + headerSize + 4, sizeof(char), numbytes - headerSize - 4 , fp);
+    }
+    else {
+        fwrite(httpResponseDtl->body, sizeof(char), numbytes, fp);
+    }
+    memset(buf, '\0', sizeof buf);
+
     do{
-        if((numbytes = recv(sockfd, buf,MAXDATASIZE-1,0)) == -1){
-            perror("recv");
+        if((numbytes = recv(sockfd, buf, MAXDATASIZE-1, 0)) == -1){
             writeMessageToFile("NOCONNECTION");
+            perror("recv");
             exit(1);
         }
 
-        if(numbytes <= 0){
-            break;
-        }
         printf("client: received '%s'\n",buf);
         struct httpResponse *httpResponseDtl2 = (struct httpResponse *) malloc(sizeof(struct httpResponse));
         httpResponseDtl2 = parseResponse(buf,httpResponseDtl2);
 
-        httpResponseDtl->body = realloc(httpResponseDtl->body, bufsize + numbytes);
-        memcpy(httpResponseDtl->body + bufsize, httpResponseDtl2->body, numbytes);
-        bufsize += numbytes;
-
+        fwrite(httpResponseDtl2->body, sizeof(char), numbytes, fp);
     }while(numbytes > 0);
 
-    if(strstr(httpResponseDtl->httpStatusCd,"404") != NULL){
-        writeMessageToFile("FILENOTFOUND");
-    }else{
-        writeBinaryFile(httpResponseDtl->body);
-//        writeMessageToFile(httpResponseDtl->body);
-    }
+    buf[numbytes] = '\0';
 
-	close(sockfd);
 
-	return 0;
-}
+    close(sockfd);
 
-//    unsigned char* aBuf = 0;
-//    int bufsize = 0;
-//    do {
-//        if((numbytes = recv(sockfd, buf, sizeof(buf), 0)) == -1){
+    return 0;
+
+//    struct httpResponse *httpResponseDtl = (struct httpResponse *) malloc(sizeof(struct httpResponse));
+//    httpResponseDtl = parseResponse(buf,httpResponseDtl);
+//
+//    int bufsize = numbytes;
+//    do{
+//        if((numbytes = recv(sockfd, buf,MAXDATASIZE-1,0)) == -1){
 //            perror("recv");
 //            writeMessageToFile("NOCONNECTION");
 //            exit(1);
 //        }
-//        if (numbytes <= 0)
-//        {
+//
+//        if(numbytes <= 0){
 //            break;
 //        }
+//        printf("client: received '%s'\n",buf);
+//        struct httpResponse *httpResponseDtl2 = (struct httpResponse *) malloc(sizeof(struct httpResponse));
+//        httpResponseDtl2 = parseResponse(buf,httpResponseDtl2);
 //
-//        aBuf = realloc(aBuf, bufsize + numbytes);
-//        memcpy(aBuf + bufsize, buf, numbytes);
+//        httpResponseDtl->body = realloc(httpResponseDtl->body, bufsize + numbytes);
+//        memcpy(httpResponseDtl->body + bufsize, httpResponseDtl2->body, numbytes);
 //        bufsize += numbytes;
 //
-//    } while (numbytes > 0);
+//    }while(numbytes > 0);
+//
+//    if(strstr(httpResponseDtl->httpStatusCd,"404") != NULL){
+//        writeMessageToFile("FILENOTFOUND");
+//    }else{
+//        writeBinaryFile(httpResponseDtl->body);
+////        writeMessageToFile(httpResponseDtl->body);
+//    }
+//
+//	close(sockfd);
+//
+//	return 0;
+}
+
 
 void writeBinaryFile(const char *message) {
     FILE *write_ptr;
 
     write_ptr = fopen("output","wb+");  // w for write, b for binary
 
-    fwrite(message,sizeof(message),1,write_ptr); 
+    fwrite(message,sizeof(message),1,write_ptr);
     fclose(write_ptr);
 }
 
 struct httpResponse *parseResponse(char* buf, struct httpResponse *httpResponseDtl){
-    char* body = strstr(buf, "\r\n\r\n") + 4;
+    char* body = strstr(buf, "\r\n\r\n");
     char* header = 0;
     if(body) {
         header = (char *)malloc((body - buf) + 1);

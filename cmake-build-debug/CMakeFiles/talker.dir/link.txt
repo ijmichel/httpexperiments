@@ -1,1 +1,1 @@
-/Library/Developer/CommandLineTools/usr/bin/cc -g -Wl,-search_paths_first -Wl,-headerpad_max_install_names  CMakeFiles/talker.dir/talker.c.o  -o talker 
+/usr/bin/gcc  -g   CMakeFiles/talker.dir/talker.c.o  -o talker 

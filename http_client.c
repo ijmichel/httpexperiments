@@ -12,7 +12,7 @@
 
 #define PORT "3490" // the port client will be connecting to 
 
-#define MAXDATASIZE 11000 // max number of bytes we can get at once
+#define MAXDATASIZE 30000 // max number of bytes we can get at once
 
 
 struct uriInfo {
@@ -27,6 +27,7 @@ struct uriInfo {
 struct httpResponse {
     char *httpStatusCd;
     int  contentLength;
+    char* header;
     char *body;
 };
 
@@ -47,174 +48,135 @@ void *get_in_addr(struct sockaddr *sa)
 	return &(((struct sockaddr_in6*)sa)->sin6_addr);
 }
 
-int main(int argc, char *argv[])
-{
-	int sockfd, numbytes;  
-	char buf[MAXDATASIZE];
-	struct addrinfo hints, *servinfo, *p;
-	int rv;
-	char s[INET6_ADDRSTRLEN];
+int main(int argc, char *argv[]) {
+    int sockfd, numbytes;
+    char buf[MAXDATASIZE];
+    struct addrinfo hints, *servinfo, *p;
+    int rv;
+    char s[INET6_ADDRSTRLEN];
 
-	if (argc != 2) {
-	    fprintf(stderr,"usage: client hostname\n");
-	    exit(1);
-	}
-
-	memset(&hints, 0, sizeof hints);
-	hints.ai_family = AF_UNSPEC;
-	hints.ai_socktype = SOCK_STREAM;
-
-    struct uriInfo *clientUriInfo = (struct uriInfo *) malloc(sizeof(struct uriInfo));
-    clientUriInfo = getUriDetails(argv[1],clientUriInfo);
-
-    if(strcmp(clientUriInfo->protocol,"http:") != 0){
-        writeMessageToFile("INVALIDPROTOCOL");
-        fprintf(stderr, "INVALIDPROTOCOL");
-        return(1);
+    if (argc != 2) {
+        fprintf(stderr, "usage: client hostname\n");
+        exit(1);
     }
 
-	if ((rv = getaddrinfo(clientUriInfo->server,clientUriInfo->port,&hints, &servinfo)) != 0) {
-		fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(rv));
+    memset(&hints, 0, sizeof hints);
+    hints.ai_family = AF_UNSPEC;
+    hints.ai_socktype = SOCK_STREAM;
+
+    struct uriInfo *clientUriInfo = (struct uriInfo *) malloc(sizeof(struct uriInfo));
+    clientUriInfo = getUriDetails(argv[1], clientUriInfo);
+
+    if (strcmp(clientUriInfo->protocol, "http:") != 0) {
+        writeMessageToFile("INVALIDPROTOCOL");
+        fprintf(stderr, "INVALIDPROTOCOL");
+        return (1);
+    }
+
+    if ((rv = getaddrinfo(clientUriInfo->server, clientUriInfo->port, &hints, &servinfo)) != 0) {
+        fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(rv));
         writeMessageToFile("NOCONNECTION");
-		return 1;
-	}
+        return 1;
+    }
 
-	// loop through all the results and connect to the first we can
-	for(p = servinfo; p != NULL; p = p->ai_next) {
-		if ((sockfd = socket(p->ai_family, p->ai_socktype,
-				p->ai_protocol)) == -1) {
+    // loop through all the results and connect to the first we can
+    for (p = servinfo; p != NULL; p = p->ai_next) {
+        if ((sockfd = socket(p->ai_family, p->ai_socktype,
+                             p->ai_protocol)) == -1) {
             writeMessageToFile("NOCONNECTION");
-			perror("client: socket");
-			continue;
-		}
+            perror("client: socket");
+            continue;
+        }
 
-		if (connect(sockfd, p->ai_addr, p->ai_addrlen) == -1) {
-			close(sockfd);
+        if (connect(sockfd, p->ai_addr, p->ai_addrlen) == -1) {
+            close(sockfd);
             writeMessageToFile("NOCONNECTION");
-			perror("client: connect");
-			continue;
-		}
+            perror("client: connect");
+            continue;
+        }
 
-		break;
-	}
+        break;
+    }
 
-	if (p == NULL) {
-		fprintf(stderr, "client: failed to connect\n");
+    if (p == NULL) {
+        fprintf(stderr, "client: failed to connect\n");
         writeMessageToFile("NOCONNECTION");
-		return 2;
-	}
+        return 2;
+    }
 
-	inet_ntop(p->ai_family, get_in_addr((struct sockaddr *)p->ai_addr),
-			s, sizeof s);
-	printf("client: connecting to %s\n", s);
+    inet_ntop(p->ai_family, get_in_addr((struct sockaddr *) p->ai_addr),
+              s, sizeof s);
+    printf("client: connecting to %s\n", s);
 
-	freeaddrinfo(servinfo); // all done with this structure
+    freeaddrinfo(servinfo); // all done with this structure
 
-	char msg [100];
-    sprintf(msg,"GET %s HTTP/1.1\r\nUser-Agent: Wget/1.15 (linux-gnu)\r\nAccept: */*\nHost: %s\r\nConnection: close\n\n",clientUriInfo->path,clientUriInfo->serverPort);
-   // sprintf(msg,"GET %s ","test");
-	int len, bytes_sent;
-	len = strlen(msg);
+    char msg[100];
+    sprintf(msg,
+            "GET %s HTTP/1.1\r\nUser-Agent: Wget/1.15 (linux-gnu)\r\nAccept: */*\nHost: %s\r\nConnection: Keep-Alive\n\n",
+            clientUriInfo->path, clientUriInfo->serverPort);
+    // sprintf(msg,"GET %s ","test");
+    int len, bytes_sent;
+    len = strlen(msg);
 
-    if( bytes_sent = send(sockfd,msg,len,0) < 0)
-    {
+    if (bytes_sent = send(sockfd, msg, len, 0) < 0) {
         puts("Send failed");
         return 1;
     }
 
     FILE *fp;
-    fp = fopen("output", "wb"); //leave open for writing
+    fp = fopen("output", "wb"); //leave open for writing a binary file
 
-    if((numbytes = recv(sockfd, buf, MAXDATASIZE-1, 0)) == -1){
+    if ((numbytes = recv(sockfd, buf, MAXDATASIZE - 1, 0)) == -1) {
         perror("recv");
         writeMessageToFile("NOCONNECTION");
         exit(1);
     }
 
-    printf("client: received '%s'\n",buf);
+    printf("client: received '%s'\n", buf);
 
     struct httpResponse *httpResponseDtl = (struct httpResponse *) malloc(sizeof(struct httpResponse));
-    httpResponseDtl = parseResponse(buf,httpResponseDtl);
+    httpResponseDtl = parseResponse(buf, httpResponseDtl);
 
-    if(strstr(httpResponseDtl->httpStatusCd,"404") != NULL) {
+    if (strstr(httpResponseDtl->httpStatusCd, "404") != NULL) {
         writeMessageToFile("FILENOTFOUND");
         return 0;
     }
 
-    if(httpResponseDtl->body != buf){
+    //Write the body only
+    if (httpResponseDtl->body != buf) {
         int headerSize = (int) (httpResponseDtl->body - buf);
-        fwrite(buf + headerSize + 4, sizeof(char), numbytes - headerSize - 4 , fp);
-    }
-    else {
+        //buf+headerSize+4 means pointer to where buf is moved header size over plus 4
+        //The plus 4 is the CLRF
+        fwrite(buf + headerSize + 4, sizeof(char), numbytes - headerSize - 4, fp);
+        //numByes-headerSizs-4 is the size of the body really
+    } else {//This might not happen but just in case
         fwrite(httpResponseDtl->body, sizeof(char), numbytes, fp);
     }
     memset(buf, '\0', sizeof buf);
 
-    do{
-        if((numbytes = recv(sockfd, buf, MAXDATASIZE-1, 0)) == -1){
+    do {//Keep receiving the remainder of the data and writing it to the file (NOTE: there is no header here on subsequent writes)
+        if ((numbytes = recv(sockfd, buf, MAXDATASIZE - 1, 0)) == -1) {
             writeMessageToFile("NOCONNECTION");
             perror("recv");
             exit(1);
         }
+        printf("client: received '%s'\n", buf);
 
-        printf("client: received '%s'\n",buf);
-        struct httpResponse *httpResponseDtl2 = (struct httpResponse *) malloc(sizeof(struct httpResponse));
-        httpResponseDtl2 = parseResponse(buf,httpResponseDtl2);
+        if (numbytes > 0) {
 
-        fwrite(httpResponseDtl2->body, sizeof(char), numbytes, fp);
-    }while(numbytes > 0);
+            if (buf != NULL) {
+                fwrite(buf, sizeof(char), numbytes, fp);
+            }
+        }
+
+    } while (numbytes > 0);
 
     buf[numbytes] = '\0';
-
+    fclose(fp);
 
     close(sockfd);
 
     return 0;
-
-//    struct httpResponse *httpResponseDtl = (struct httpResponse *) malloc(sizeof(struct httpResponse));
-//    httpResponseDtl = parseResponse(buf,httpResponseDtl);
-//
-//    int bufsize = numbytes;
-//    do{
-//        if((numbytes = recv(sockfd, buf,MAXDATASIZE-1,0)) == -1){
-//            perror("recv");
-//            writeMessageToFile("NOCONNECTION");
-//            exit(1);
-//        }
-//
-//        if(numbytes <= 0){
-//            break;
-//        }
-//        printf("client: received '%s'\n",buf);
-//        struct httpResponse *httpResponseDtl2 = (struct httpResponse *) malloc(sizeof(struct httpResponse));
-//        httpResponseDtl2 = parseResponse(buf,httpResponseDtl2);
-//
-//        httpResponseDtl->body = realloc(httpResponseDtl->body, bufsize + numbytes);
-//        memcpy(httpResponseDtl->body + bufsize, httpResponseDtl2->body, numbytes);
-//        bufsize += numbytes;
-//
-//    }while(numbytes > 0);
-//
-//    if(strstr(httpResponseDtl->httpStatusCd,"404") != NULL){
-//        writeMessageToFile("FILENOTFOUND");
-//    }else{
-//        writeBinaryFile(httpResponseDtl->body);
-////        writeMessageToFile(httpResponseDtl->body);
-//    }
-//
-//	close(sockfd);
-//
-//	return 0;
-}
-
-
-void writeBinaryFile(const char *message) {
-    FILE *write_ptr;
-
-    write_ptr = fopen("output","wb+");  // w for write, b for binary
-
-    fwrite(message,sizeof(message),1,write_ptr);
-    fclose(write_ptr);
 }
 
 struct httpResponse *parseResponse(char* buf, struct httpResponse *httpResponseDtl){
@@ -222,7 +184,8 @@ struct httpResponse *parseResponse(char* buf, struct httpResponse *httpResponseD
     char* header = 0;
     if(body) {
         header = (char *)malloc((body - buf) + 1);
-        if(header && sizeof(header) > 4) {
+        if(header) {
+            httpResponseDtl->header = header;
             memcpy(header, buf, body - buf);
             header[body - buf] = 0;
         }
@@ -233,12 +196,12 @@ struct httpResponse *parseResponse(char* buf, struct httpResponse *httpResponseD
     }
 
     char* headerItem;
-    headerItem = strtok(buf, "\r\n");
+    headerItem = strtok(header, "\r\n");
     //"HTTP/1.0 200 OK"
     int count = 0;
     while(headerItem != NULL){
         if( headerItem != NULL ){
-            if(count == 0){
+            if(count == 0){//First one always HTTP
                 httpResponseDtl->httpStatusCd = headerItem;
             }
 
@@ -357,5 +320,6 @@ struct uriInfo *getUriDetails(char str[], struct uriInfo *iUriInfo){
 
 
     return iUriInfo;
+
 }
 

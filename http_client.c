@@ -12,7 +12,7 @@
 
 #define PORT "3490" // the port client will be connecting to 
 
-#define MAXDATASIZE 999999 // max number of bytes we can get at once
+#define MAXDATASIZE 11000 // max number of bytes we can get at once
 
 
 struct uriInfo {
@@ -25,14 +25,17 @@ struct uriInfo {
 };
 
 struct httpResponse {
-    char  *httpStatusCd;
-    char  *body;
+    char *httpStatusCd;
+    int  contentLength;
+    char *body;
 };
 
 struct uriInfo *getUriDetails(char str[], struct uriInfo *iUriInfo);
 struct httpResponse *parseResponse(char* buf, struct httpResponse *httpResponseDtl);
 
 void writeMessageToFile(const char *message);
+
+void writeBinaryFile(const char *message);
 
 // get sockaddr, IPv4 or IPv6:
 void *get_in_addr(struct sockaddr *sa)
@@ -119,24 +122,43 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-
     if((numbytes = recv(sockfd, buf,MAXDATASIZE-1,0)) == -1){
 	    perror("recv");
         writeMessageToFile("NOCONNECTION");
 	    exit(1);
 	}
 
-//	buf[numbytes] = '\0';
-
 	printf("client: received '%s'\n",buf);
 
     struct httpResponse *httpResponseDtl = (struct httpResponse *) malloc(sizeof(struct httpResponse));
     httpResponseDtl = parseResponse(buf,httpResponseDtl);
 
+    int bufsize = numbytes;
+    do{
+        if((numbytes = recv(sockfd, buf,MAXDATASIZE-1,0)) == -1){
+            perror("recv");
+            writeMessageToFile("NOCONNECTION");
+            exit(1);
+        }
+
+        if(numbytes <= 0){
+            break;
+        }
+        printf("client: received '%s'\n",buf);
+        struct httpResponse *httpResponseDtl2 = (struct httpResponse *) malloc(sizeof(struct httpResponse));
+        httpResponseDtl2 = parseResponse(buf,httpResponseDtl2);
+
+        httpResponseDtl->body = realloc(httpResponseDtl->body, bufsize + numbytes);
+        memcpy(httpResponseDtl->body + bufsize, httpResponseDtl2->body, numbytes);
+        bufsize += numbytes;
+
+    }while(numbytes > 0);
+
     if(strstr(httpResponseDtl->httpStatusCd,"404") != NULL){
         writeMessageToFile("FILENOTFOUND");
     }else{
-        writeMessageToFile(httpResponseDtl->body);
+        writeBinaryFile(httpResponseDtl->body);
+//        writeMessageToFile(httpResponseDtl->body);
     }
 
 	close(sockfd);
@@ -144,12 +166,40 @@ int main(int argc, char *argv[])
 	return 0;
 }
 
+//    unsigned char* aBuf = 0;
+//    int bufsize = 0;
+//    do {
+//        if((numbytes = recv(sockfd, buf, sizeof(buf), 0)) == -1){
+//            perror("recv");
+//            writeMessageToFile("NOCONNECTION");
+//            exit(1);
+//        }
+//        if (numbytes <= 0)
+//        {
+//            break;
+//        }
+//
+//        aBuf = realloc(aBuf, bufsize + numbytes);
+//        memcpy(aBuf + bufsize, buf, numbytes);
+//        bufsize += numbytes;
+//
+//    } while (numbytes > 0);
+
+void writeBinaryFile(const char *message) {
+    FILE *write_ptr;
+
+    write_ptr = fopen("output","wb+");  // w for write, b for binary
+
+    fwrite(message,sizeof(message),1,write_ptr); 
+    fclose(write_ptr);
+}
+
 struct httpResponse *parseResponse(char* buf, struct httpResponse *httpResponseDtl){
     char* body = strstr(buf, "\r\n\r\n") + 4;
     char* header = 0;
     if(body) {
         header = (char *)malloc((body - buf) + 1);
-        if(header) {
+        if(header && sizeof(header) > 4) {
             memcpy(header, buf, body - buf);
             header[body - buf] = 0;
         }
@@ -159,12 +209,39 @@ struct httpResponse *parseResponse(char* buf, struct httpResponse *httpResponseD
         httpResponseDtl->body = body;
     }
 
-    char* httpStat;
-    httpStat = strtok(buf, "\r\n");
+    char* headerItem;
+    headerItem = strtok(buf, "\r\n");
     //"HTTP/1.0 200 OK"
-    if( httpStat != NULL ){
-        httpResponseDtl->httpStatusCd = httpStat;
+    int count = 0;
+    while(headerItem != NULL){
+        if( headerItem != NULL ){
+            if(count == 0){
+                httpResponseDtl->httpStatusCd = headerItem;
+            }
+
+            if(count > 0){
+                if(strstr(headerItem,"Content-Length") != NULL){
+                    int contentLength;
+                    char tmp[256];
+                    tmp[0]='\0';
+                    while (sscanf(headerItem,"%[^0123456789]%s",tmp,headerItem)>1||sscanf(headerItem,"%d%s",&contentLength,headerItem))
+                    {
+                        if (tmp[0]=='\0')
+                        {
+                            httpResponseDtl->contentLength = contentLength;
+                            break;
+                        }
+                        tmp[0]='\0';
+                    }
+                }
+            }
+            count++;
+            headerItem = strtok(NULL, "\r\n");
+        }
     }
+
+    return httpResponseDtl;
+
 
 }
 

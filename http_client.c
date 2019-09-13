@@ -149,8 +149,6 @@ int main(int argc, char *argv[]) {
         //The plus 4 is the CLRF
         fwrite(buf + headerSize + 4, sizeof(char), numbytes - headerSize - 4, fp);
         //numByes-headerSizs-4 is the size of the body really
-    } else {//This might not happen but just in case
-        fwrite(httpResponseDtl->body, sizeof(char), numbytes, fp);
     }
     memset(buf, '\0', sizeof buf);
 
